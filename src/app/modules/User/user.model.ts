@@ -63,12 +63,12 @@ const userSchema = new Schema<IUser>({
   },
   fullName: {
     type: fullNameSchema,
-    // required: true,
+    required: true,
   },
   age: { type: Number },
   email: {
     type: String,
-    required: true,
+    required: [true, 'Can not accept Duplicate or Invalid email'],
   },
   isActive: {
     type: Boolean,
@@ -81,7 +81,8 @@ const userSchema = new Schema<IUser>({
     type: addressSchema,
   },
   orders: {
-    type: orderSchema,
+    type: [orderSchema],
+    default: [],
   },
 });
 
