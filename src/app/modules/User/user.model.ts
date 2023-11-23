@@ -34,7 +34,7 @@ const addressSchema = new Schema<IUserAddress>({
 const orderSchema = new Schema<IOrder>({
   productName: {
     type: String,
-    required: [true, 'Product name is required'],
+    required: [true, 'Product Name is required'],
   },
   price: {
     type: Number,
@@ -59,17 +59,16 @@ const userSchema = new Schema<IUser>({
   },
   password: {
     type: String,
-    required: [true, 'Email is Required'],
+    required: [true, 'password is Required'],
   },
   fullName: {
     type: fullNameSchema,
-    required: true,
+    // required: true,
   },
   age: { type: Number },
   email: {
     type: String,
     required: true,
-    unique: true,
   },
   isActive: {
     type: Boolean,
@@ -77,11 +76,9 @@ const userSchema = new Schema<IUser>({
   },
   hobbies: {
     type: [String],
-    required: true,
   },
   address: {
     type: addressSchema,
-    required: true,
   },
   orders: {
     type: orderSchema,
@@ -90,6 +87,3 @@ const userSchema = new Schema<IUser>({
 
 //user model create
 export const UserModel = model<IUser>('User', userSchema);
-
-//order model create
-export const OrderModel = model<IOrder>('Order', orderSchema);
