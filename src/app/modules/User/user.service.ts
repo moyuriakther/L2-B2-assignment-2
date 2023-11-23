@@ -16,8 +16,32 @@ const getSingleUserFromDB = async (userId: string) => {
   return result;
 };
 
+const updateUserIntoDB = async (userId: string, updatedData: IUser) => {
+  if (!UserModel.isUserExist(userId)) {
+    const error = new Error('User not found');
+    (error as any).code = 404;
+    (error as any).description = 'User not found!';
+    throw error;
+  }
+  const result = await UserModel.updateOne({ userId }, updatedData);
+  return result;
+};
+
+const deleteUserFromDB = async (userId: string) => {
+  if (!UserModel.isUserExist(userId)) {
+    const error = new Error('User not found');
+    (error as any).code = 404;
+    (error as any).description = 'User not found!';
+    throw error;
+  }
+  const result = await UserModel.deleteOne({ userId });
+  return result;
+};
+
 export const UserServices = {
   createUserInfoDB,
   getAllUserFromDB,
   getSingleUserFromDB,
+  updateUserIntoDB,
+  deleteUserFromDB,
 };

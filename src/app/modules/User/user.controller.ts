@@ -59,8 +59,47 @@ const getSingleUser = async (req: Request, res: Response) => {
   }
 };
 
+const updateUserInformation = async (req: Request, res: Response) => {
+  try {
+    const userId = req.params.userId;
+    const updatedData = req.body;
+    const result = await UserServices.updateUserIntoDB(userId, updatedData);
+    res.status(200).json({
+      success: true,
+      message: 'User updated successfully!',
+      data: result,
+    });
+  } catch (err: any) {
+    res.status(500).json({
+      success: false,
+      message: err.message || 'Something wrong',
+      error: err,
+    });
+  }
+};
+
+const deleteMatchedUser = async (req: Request, res: Response) => {
+  try {
+    const userId = req.params.userId;
+    const result = await UserServices.deleteUserFromDB(userId);
+    res.status(200).json({
+      success: true,
+      message: 'User Delete successfully!',
+      data: result,
+    });
+  } catch (err: any) {
+    res.status(500).json({
+      success: false,
+      message: err.message || 'Something wrong',
+      error: err,
+    });
+  }
+};
+
 export const UserControllers = {
   createUser,
   getAllUsers,
   getSingleUser,
+  updateUserInformation,
+  deleteMatchedUser,
 };

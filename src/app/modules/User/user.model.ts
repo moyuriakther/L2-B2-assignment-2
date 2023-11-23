@@ -1,5 +1,11 @@
 import { Schema, model } from 'mongoose';
-import { IOrder, IUser, IUserAddress, IUserFullName } from './user.interface';
+import {
+  IOrder,
+  IUser,
+  IUserAddress,
+  IUserFullName,
+  IUserModel,
+} from './user.interface';
 
 const fullNameSchema = new Schema<IUserFullName>({
   firstName: {
@@ -46,7 +52,7 @@ const orderSchema = new Schema<IOrder>({
   },
 });
 
-const userSchema = new Schema<IUser>({
+const userSchema = new Schema<IUser, IUserModel>({
   userId: {
     type: String,
     unique: true,
@@ -86,5 +92,11 @@ const userSchema = new Schema<IUser>({
   },
 });
 
+//creating a custom static method
+userSchema.statics.isUserExist = async function (id: string) {
+  const existingUser = await UserModel.findOne({ id });
+  return existingUser;
+};
+
 //user model create
-export const UserModel = model<IUser>('User', userSchema);
+export const UserModel = model<IUser, IUserModel>('User', userSchema);
