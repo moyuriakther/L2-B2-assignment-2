@@ -60,7 +60,6 @@ const addNewProductInOrder = async (userId: string, order: IOrder) => {
     { $push: { orders: order } },
     { new: true },
   );
-
   //using static method check user existence
   if (!(await UserModel.isUserExist(userId))) {
     const error = new Error('User not found');
@@ -68,7 +67,6 @@ const addNewProductInOrder = async (userId: string, order: IOrder) => {
     (error as any).description = 'User not found!';
     throw error;
   }
-
   return result;
 };
 
@@ -84,6 +82,24 @@ const retrieveAllOrders = async (userId: string) => {
   return result;
 };
 
+//Get total price of orders
+const totalPriceOfOrder = async (userId: string) => {
+  const user = await UserModel.findOne({ userId });
+
+  //using static method check user existence
+  if (!(await UserModel.isUserExist(userId))) {
+    const error = new Error('User not found');
+    (error as any).code = 404;
+    (error as any).description = 'User not found!';
+    throw error;
+  }
+
+  const totalPrice = user?.orders?.reduce((total, order) => {
+    return total + order.price * order.quantity;
+  }, 0);
+  return totalPrice;
+};
+
 export const UserServices = {
   createUserInfoDB,
   getAllUserFromDB,
@@ -92,4 +108,5 @@ export const UserServices = {
   deleteUserFromDB,
   addNewProductInOrder,
   retrieveAllOrders,
+  totalPriceOfOrder,
 };
