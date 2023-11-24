@@ -14,7 +14,7 @@ const getAllUserFromDB = async () => {
 };
 
 //get single user from database
-const getSingleUserFromDB = async (userId: string) => {
+const getSingleUserFromDB = async (userId: number) => {
   const result = await UserModel.findOne({ userId });
   //using static method check user existence
   if (!(await UserModel.isUserExist(userId))) {
@@ -27,7 +27,7 @@ const getSingleUserFromDB = async (userId: string) => {
 };
 
 //update user into database
-const updateUserIntoDB = async (userId: string, updatedData: IUser) => {
+const updateUserIntoDB = async (userId: number, updatedData: IUser) => {
   const result = await UserModel.updateOne({ userId }, updatedData);
   //using static method check user existence
   if (!(await UserModel.isUserExist(userId))) {
@@ -40,7 +40,7 @@ const updateUserIntoDB = async (userId: string, updatedData: IUser) => {
 };
 
 //delete user from database
-const deleteUserFromDB = async (userId: string) => {
+const deleteUserFromDB = async (userId: number) => {
   //using static method check user existence
   if (!(await UserModel.isUserExist(userId))) {
     const error = new Error('User not found');
@@ -53,7 +53,7 @@ const deleteUserFromDB = async (userId: string) => {
 };
 
 //add new product in order
-const addNewProductInOrder = async (userId: string, order: IOrder) => {
+const addNewProductInOrder = async (userId: number, order: IOrder) => {
   const result = await UserModel.findOneAndUpdate(
     { userId: userId },
     { $push: { orders: order } },
@@ -70,7 +70,7 @@ const addNewProductInOrder = async (userId: string, order: IOrder) => {
 };
 
 //Retrieve all orders for specific user
-const retrieveAllOrders = async (userId: string) => {
+const retrieveAllOrders = async (userId: number) => {
   const result = await UserModel.findOne({ userId });
   if (!(await UserModel.isUserExist(userId))) {
     const error = new Error('User not found');
@@ -82,7 +82,7 @@ const retrieveAllOrders = async (userId: string) => {
 };
 
 //Get total price of orders
-const totalPriceOfOrder = async (userId: string) => {
+const totalPriceOfOrder = async (userId: number) => {
   const user = await UserModel.findOne({ userId });
 
   //using static method check user existence

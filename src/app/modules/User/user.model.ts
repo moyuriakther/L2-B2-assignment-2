@@ -56,7 +56,7 @@ const orderSchema = new Schema<IOrder>({
 
 const userSchema = new Schema<IUser, IUserModel>({
   userId: {
-    type: String,
+    type: Number,
     unique: true,
     required: [true, 'Can not accept duplicate id'],
   },
@@ -113,7 +113,7 @@ userSchema.post('save', async function (doc, next) {
 });
 
 //creating a custom static method
-userSchema.statics.isUserExist = async function (userId: string) {
+userSchema.statics.isUserExist = async function (userId: number) {
   const existingUser = await UserModel.findOne({ userId });
   return existingUser;
 };

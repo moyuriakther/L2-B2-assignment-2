@@ -18,7 +18,7 @@ export type IOrder = {
 };
 
 export type IUser = {
-  userId: string;
+  userId: number;
   username: string;
   password: string;
   fullName: IUserFullName;
@@ -32,5 +32,5 @@ export type IUser = {
 
 //for creating static
 export interface IUserModel extends Model<IUser> {
-  isUserExist(id: string): Promise<IUser | null>;
+  isUserExist(userId: number): Promise<IUser | null>;
 }
