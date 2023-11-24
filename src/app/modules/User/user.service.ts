@@ -24,7 +24,6 @@ const getSingleUserFromDB = async (userId: string) => {
     throw error;
   }
   return result;
-  //   const result = await UserModel.aggregate([{ $match: { userId: userId } }]);
 };
 
 //update user into database

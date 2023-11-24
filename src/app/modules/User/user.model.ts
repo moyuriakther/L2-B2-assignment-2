@@ -109,7 +109,6 @@ userSchema.pre('save', async function (next) {
 //post middleware before got response
 userSchema.post('save', async function (doc, next) {
   doc.password = '';
-
   next();
 });
 

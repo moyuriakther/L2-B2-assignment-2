@@ -35,10 +35,24 @@ const createUser = async (req: Request, res: Response) => {
 const getAllUsers = async (req: Request, res: Response) => {
   try {
     const result = await UserServices.getAllUserFromDB();
+    const formattedData = result?.map((user) => ({
+      username: user?.username || '',
+      fullName: {
+        firstName: user?.fullName?.firstName || '',
+        lastName: user?.fullName?.lastName || '',
+      },
+      age: user?.age || 0,
+      email: user?.email || '',
+      address: {
+        street: user?.address?.street || '',
+        city: user?.address?.city || '',
+        country: user?.address?.country || '',
+      },
+    }));
     res.status(200).json({
       success: true,
       message: 'Users fetched successfully!',
-      data: result,
+      data: formattedData,
     });
   } catch (err: any) {
     res.status(500).json({
@@ -56,7 +70,16 @@ const getSingleUser = async (req: Request, res: Response) => {
     res.status(200).json({
       success: true,
       message: 'User fetched successfully!',
-      data: result,
+      data: {
+        userId: result?.userId,
+        username: result?.username,
+        fullName: result?.fullName,
+        age: result?.age,
+        email: result?.email,
+        isActive: result?.isActive,
+        hobbies: result?.hobbies,
+        address: result?.address,
+      },
     });
   } catch (err: any) {
     res.status(500).json({
@@ -89,11 +112,11 @@ const updateUserInformation = async (req: Request, res: Response) => {
 const deleteMatchedUser = async (req: Request, res: Response) => {
   try {
     const userId = req.params.userId;
-    const result = await UserServices.deleteUserFromDB(userId);
+    await UserServices.deleteUserFromDB(userId);
     res.status(200).json({
       success: true,
-      message: 'User Delete successfully!',
-      data: result,
+      message: 'User deleted successfully!',
+      data: null,
     });
   } catch (err: any) {
     res.status(500).json({
@@ -130,7 +153,7 @@ const getAllOrders = async (req: Request, res: Response) => {
     res.status(200).json({
       success: true,
       message: 'Orders fetched successfully!',
-      data: result?.orders,
+      data: { orders: result?.orders },
     });
   } catch (err: any) {
     res.status(500).json({
