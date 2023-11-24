@@ -12,10 +12,18 @@ const createUser = async (req: Request, res: Response) => {
     res.status(200).json({
       success: true,
       message: 'User Created Successfully',
-      data: result,
+      data: {
+        userId: result?.userId,
+        username: result?.username,
+        fullName: result?.fullName,
+        age: result?.age,
+        email: result?.email,
+        isActive: result?.isActive,
+        hobbies: result?.hobbies,
+        address: result?.address,
+      },
     });
   } catch (err: any) {
-    console.log({ err });
     res.status(500).json({
       success: false,
       message: err.message || 'Something went wrong',
