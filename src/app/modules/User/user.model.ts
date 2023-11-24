@@ -1,4 +1,5 @@
 import { Schema, model } from 'mongoose';
+import bcrypt from 'bcrypt';
 import {
   IOrder,
   IUser,
@@ -6,6 +7,7 @@ import {
   IUserFullName,
   IUserModel,
 } from './user.interface';
+import config from '../../config';
 
 const fullNameSchema = new Schema<IUserFullName>({
   firstName: {
@@ -92,9 +94,28 @@ const userSchema = new Schema<IUser, IUserModel>({
   },
 });
 
+//pre save middleware
+userSchema.pre('save', async function (next) {
+  // eslint-disable-next-line @typescript-eslint/no-this-alias
+  const user = this;
+  // hashing password and save into database
+  user.password = await bcrypt.hash(
+    user.password,
+    Number(config.bcrypt_salt_round),
+  );
+  next();
+});
+
+//post middleware before got response
+userSchema.post('save', async function (doc, next) {
+  doc.password = '';
+
+  next();
+});
+
 //creating a custom static method
-userSchema.statics.isUserExist = async function (id: string) {
-  const existingUser = await UserModel.findOne({ id });
+userSchema.statics.isUserExist = async function (userId: string) {
+  const existingUser = await UserModel.findOne({ userId });
   return existingUser;
 };
 

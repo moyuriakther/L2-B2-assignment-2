@@ -13,22 +13,29 @@ const getAllUserFromDB = async () => {
 
 const getSingleUserFromDB = async (userId: string) => {
   const result = await UserModel.findOne({ userId });
-  return result;
-};
-
-const updateUserIntoDB = async (userId: string, updatedData: IUser) => {
-  if (!UserModel.isUserExist(userId)) {
+  if (!(await UserModel.isUserExist(userId))) {
     const error = new Error('User not found');
     (error as any).code = 404;
     (error as any).description = 'User not found!';
     throw error;
   }
+  return result;
+  //   const result = await UserModel.aggregate([{ $match: { userId: userId } }]);
+};
+
+const updateUserIntoDB = async (userId: string, updatedData: IUser) => {
   const result = await UserModel.updateOne({ userId }, updatedData);
+  if (!(await UserModel.isUserExist(userId))) {
+    const error = new Error('User not found');
+    (error as any).code = 404;
+    (error as any).description = 'User not found!';
+    throw error;
+  }
   return result;
 };
 
 const deleteUserFromDB = async (userId: string) => {
-  if (!UserModel.isUserExist(userId)) {
+  if (!(await UserModel.isUserExist(userId))) {
     const error = new Error('User not found');
     (error as any).code = 404;
     (error as any).description = 'User not found!';
