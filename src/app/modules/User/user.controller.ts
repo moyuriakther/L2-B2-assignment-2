@@ -45,7 +45,6 @@ const getSingleUser = async (req: Request, res: Response) => {
   try {
     const userId = req.params.userId;
     const result = await UserServices.getSingleUserFromDB(userId);
-    console.log({ result }, userId);
     res.status(200).json({
       success: true,
       message: 'User fetched successfully!',
@@ -97,10 +96,49 @@ const deleteMatchedUser = async (req: Request, res: Response) => {
   }
 };
 
+const addNewOrder = async (req: Request, res: Response) => {
+  try {
+    const order = req.body;
+    const userId = req.params.userId;
+    await UserServices.addNewProductInOrder(userId, order);
+    res.status(200).json({
+      success: true,
+      message: 'Order created successfully!',
+      data: null,
+    });
+  } catch (err: any) {
+    res.status(500).json({
+      success: false,
+      message: err.message || 'Something went wrong',
+      error: err,
+    });
+  }
+};
+
+const getAllOrders = async (req: Request, res: Response) => {
+  try {
+    const userId = req.params.userId;
+    const result = await UserServices.retrieveAllOrders(userId);
+    res.status(200).json({
+      success: true,
+      message: 'Orders fetched successfully!',
+      data: result?.orders,
+    });
+  } catch (err: any) {
+    res.status(500).json({
+      success: false,
+      message: err.message || 'Something went wrong',
+      error: err,
+    });
+  }
+};
+
 export const UserControllers = {
   createUser,
   getAllUsers,
   getSingleUser,
   updateUserInformation,
   deleteMatchedUser,
+  addNewOrder,
+  getAllOrders,
 };
