@@ -60,7 +60,7 @@ const orderSchema = new mongoose_1.Schema({
 });
 const userSchema = new mongoose_1.Schema({
     userId: {
-        type: String,
+        type: Number,
         unique: true,
         required: [true, 'Can not accept duplicate id'],
     },

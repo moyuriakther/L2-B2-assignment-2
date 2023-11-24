@@ -11,7 +11,7 @@ app.use(cors());
 app.use('/api', UserRoutes);
 
 app.get('/', (req: Request, res: Response) => {
-  res.send('hello world');
+  res.send('Welcome To User Management');
 });
 
 export default app;

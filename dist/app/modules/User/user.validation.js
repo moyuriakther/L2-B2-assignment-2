@@ -16,7 +16,7 @@ const orderValidationSchema = zod_1.z.object({
     quantity: zod_1.z.number(),
 });
 const userValidationSchema = zod_1.z.object({
-    userId: zod_1.z.string().min(1),
+    userId: zod_1.z.number().min(1),
     username: zod_1.z.string().min(1),
     password: zod_1.z.string().min(1),
     fullName: fullNameValidationSchema,

@@ -79,7 +79,7 @@ const getAllUsers = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
 });
 const getSingleUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const userId = req.params.userId;
+        const userId = Number(req.params.userId);
         const result = yield user_service_1.UserServices.getSingleUserFromDB(userId);
         res.status(200).json({
             success: true,
@@ -106,7 +106,7 @@ const getSingleUser = (req, res) => __awaiter(void 0, void 0, void 0, function* 
 });
 const updateUserInformation = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const userId = req.params.userId;
+        const userId = Number(req.params.userId);
         const updatedData = req.body;
         const result = yield user_service_1.UserServices.updateUserIntoDB(userId, updatedData);
         res.status(200).json({
@@ -125,7 +125,7 @@ const updateUserInformation = (req, res) => __awaiter(void 0, void 0, void 0, fu
 });
 const deleteMatchedUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const userId = req.params.userId;
+        const userId = Number(req.params.userId);
         yield user_service_1.UserServices.deleteUserFromDB(userId);
         res.status(200).json({
             success: true,
@@ -144,7 +144,7 @@ const deleteMatchedUser = (req, res) => __awaiter(void 0, void 0, void 0, functi
 const addNewOrder = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const order = req.body;
-        const userId = req.params.userId;
+        const userId = Number(req.params.userId);
         yield user_service_1.UserServices.addNewProductInOrder(userId, order);
         res.status(200).json({
             success: true,
@@ -162,7 +162,7 @@ const addNewOrder = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
 });
 const getAllOrders = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const userId = req.params.userId;
+        const userId = Number(req.params.userId);
         const result = yield user_service_1.UserServices.retrieveAllOrders(userId);
         res.status(200).json({
             success: true,
@@ -180,7 +180,7 @@ const getAllOrders = (req, res) => __awaiter(void 0, void 0, void 0, function* (
 });
 const getTotalPriceOfOrder = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const userId = req.params.userId;
+        const userId = Number(req.params.userId);
         const result = yield user_service_1.UserServices.totalPriceOfOrder(userId);
         res.status(200).json({
             success: true,
